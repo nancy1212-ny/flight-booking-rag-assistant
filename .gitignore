@@ -1,0 +1,19 @@
+# secrets
+.env
+
+# python
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+# generated database (recreate with: python -m app.seed_flights)
+*.db
+
+# node
+node_modules/
+dist/
+
+# editor / OS
+.vscode/
+.DS_Store
