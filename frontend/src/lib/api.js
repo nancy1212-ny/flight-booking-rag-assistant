@@ -1,4 +1,4 @@
-// All backend calls live here. Vite proxies /api -> http://localhost:8000
+const API_BASE = import.meta.env.VITE_API_URL || "";
 
 async function parse(res) {
   const data = await res.json().catch(() => ({}));
@@ -7,24 +7,27 @@ async function parse(res) {
 }
 
 export async function getHealth() {
-  return parse(await fetch("/api/health"));
+  return parse(await fetch(`${API_BASE}/api/health`));
 }
 
 export async function uploadPdf(file) {
   const form = new FormData();
   form.append("file", file);
-  return parse(await fetch("/api/upload", { method: "POST", body: form }));
+
+  return parse(
+    await fetch(`${API_BASE}/api/upload`, {
+      method: "POST",
+      body: form,
+    }),
+  );
 }
 
-// ---- STEP 5 ---------------------------------------------------------------
 export async function askQuestion(docId, question) {
-  // >>> SOLUTION: POST { doc_id, question } as JSON to /api/ask, return the parsed response
   return parse(
-    await fetch("/api/ask", {
+    await fetch(`${API_BASE}/api/ask`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ doc_id: docId, question }),
-    })
+    }),
   );
-  // <<< SOLUTION
 }
